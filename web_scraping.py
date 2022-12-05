@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import dateutil.parser as dparser
 import pandas as pd
+import os
+
+current_path = os.path.split(os.path.realpath(__file__))[0]
 
 page = requests.get('https://www.shmu.sk/sk/?page=1&id=meteo_apocasie_sk')
 soup = BeautifulSoup(page.content, 'html.parser')
@@ -22,4 +25,4 @@ for station in stations.keys():
                         'clouds':[station_info[station][6].get_text()],
                         'visibility':[station_info[station][7].get_text()]
                     })
-    df.to_csv('/home/adam/skola/tutorialy/python/data_anal/web_scraping/data_'+station+'.csv', mode='a', index=False, header=False)
+    df.to_csv(current_path+'/data_'+station+'.csv', mode='a', index=False, header=False)
