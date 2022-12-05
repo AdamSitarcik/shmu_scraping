@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import dateutil.parser as dparser
 import pandas as pd
 import os
+import platform
 
 current_path = os.path.split(os.path.realpath(__file__))[0]
 
@@ -25,4 +26,8 @@ for station in stations.keys():
                         'clouds':[station_info[station][6].get_text()],
                         'visibility':[station_info[station][7].get_text()]
                     })
-    df.to_csv(current_path+'/data_'+station+'.csv', mode='a', index=False, header=False)
+    if platform.system() == 'Linux':
+        df.to_csv(current_path+'/data_'+station+'.csv', mode='a', index=False, header=False)
+    elif platform.system() == 'Windows':
+        df.to_csv(current_path+'\data_'+station+'.csv', mode='a', index=False, header=False)
+
